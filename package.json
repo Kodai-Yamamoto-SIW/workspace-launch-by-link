@@ -1,0 +1,55 @@
+{
+    "name": "workspace-launch-by-link",
+    "displayName": "Workspace Launch by Link",
+    "description": "Webリンクからワークスペースを起動し、内容をサーバーとリアルタイム同期する VS Code 拡張機能",
+    "publisher": "Kodai-Yamamoto-SIW",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": ">=1.87.0"
+    },
+    "categories": [
+        "Education"
+    ],
+    "activationEvents": [
+        "onUri",
+        "workspaceContains:.vscode/workspace-launch-by-link.json"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "workspaceLaunchByLink.showStatus",
+                "title": "Workspace Launch by Link: Show Status"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Workspace Launch by Link",
+            "properties": {
+                "workspaceLaunchByLink.telemetry": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "匿名メトリクス送信（本プロジェクトでは無効のまま推奨）"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "package": "vsce package",
+        "lint": "echo 'No lint configured'",
+        "mock-server": "node tools/mock-server.js"
+    },
+    "devDependencies": {
+        "@types/node": "^20.12.7",
+        "@types/vscode": "^1.87.0",
+        "typescript": "^5.5.4",
+        "vsce": "^2.15.0"
+    },
+    "dependencies": {
+        "cross-fetch": "^4.0.0",
+        "isbinaryfile": "^5.0.2"
+    }
+}

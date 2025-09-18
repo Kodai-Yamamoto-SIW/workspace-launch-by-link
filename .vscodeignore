@@ -1,0 +1,7 @@
+**/.vscode/**
+**/.vscode-test/**
+**/*.map
+**/*.ts
+**/.git/**
+**/node_modules/typescript/**
+**/node_modules/@types/**
