@@ -2,6 +2,25 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "npm install",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "install"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "npm compile",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "run",
+                "compile"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "mock-server",
             "type": "shell",
             "command": "npm",
@@ -30,6 +49,15 @@
                     "endsPattern": "Mock server listening on"
                 }
             }
+        },
+        {
+            "label": "prepare-extension",
+            "dependsOn": [
+                "npm install",
+                "npm compile",
+                "mock-server"
+            ],
+            "dependsOrder": "sequence"
         }
     ]
 }

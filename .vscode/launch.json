@@ -5,7 +5,7 @@
             "name": "Run Extension",
             "type": "extensionHost",
             "request": "launch",
-            "preLaunchTask": "mock-server",
+            "preLaunchTask": "prepare-extension",
             "runtimeExecutable": "${execPath}",
             "args": [
                 "--extensionDevelopmentPath=${workspaceFolder}"
