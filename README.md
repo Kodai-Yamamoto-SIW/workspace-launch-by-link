@@ -8,16 +8,16 @@ Webリンクから VS Code ワークスペースを起動し、内容をサー�
 2. Web 側に以下の形式のリンクを配置
 
 ```
-vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=https%3A%2F%2Fexample.com&student=alice&exercise=week1
+vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=https%3A%2F%2Fexample.com&ownerId=alice&workspaceId=week1
 ```
 
 - server: サーバーのベース URL（必須）
-- student/exercise: 任意の識別子
+- ownerId/workspaceId: 任意の識別子
 
 ## サーバー API
 
 - GET /manifest
-  - クエリ: student, exercise, token
+  - クエリ: ownerId, workspaceId, token
   - 返却: JSON 配列
   ```json
   [
@@ -27,11 +27,11 @@ vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=https%3A%2F%2F
   ```
 
 - POST /event/fileSnapshot
-  - body: { path, isBinary, content(base64), student, exercise }
+  - body: { path, isBinary, content(base64), ownerId, workspaceId }
 - POST /event/create | /event/delete | /event/rename
-  - body: { path | oldPath/newPath, student, exercise }
+  - body: { path | oldPath/newPath, ownerId, workspaceId }
 - POST /event/heartbeat
-  - body: { ts, student, exercise }
+  - body: { ts, ownerId, workspaceId }
 
 ## 動作
 
@@ -56,7 +56,7 @@ vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=https%3A%2F%2F
   - VS Code でこのフォルダを開き、F5 で「拡張機能の開発ホスト」を起動
 4. 開発ホスト側で URI を実行
   - コマンドパレットで「URI を開く」を選び、次を貼り付け
-  - `vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=http%3A%2F%2Flocalhost%3A8787&student=alice&exercise=demo`
+  - `vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=http%3A%2F%2Flocalhost%3A8787&ownerId=alice&workspaceId=demo`
   - 新しいウィンドウでテンプレートが展開されます
 5. ファイルを編集/作成/削除/リネーム
   - モックサーバーのターミナルに `/event/*` が届く様子が表示されます

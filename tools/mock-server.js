@@ -54,8 +54,8 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && pathname === '/manifest') {
-        const { student = 'unknown', exercise = 'demo' } = parsed.query;
-        console.log(`[manifest] student=${student} exercise=${exercise}`);
+        const { ownerId = 'unknown', workspaceId = 'demo' } = parsed.query;
+        console.log(`[manifest] ownerId=${ownerId} workspaceId=${workspaceId}`);
         // Provide a tiny multi-file workspace
         const manifest = [
             { path: '', type: 'directory' },
@@ -63,7 +63,7 @@ const server = http.createServer(async (req, res) => {
             {
                 path: 'README.md',
                 type: 'file',
-                contentBase64: Buffer.from(`# ${exercise}\n\n学生: ${student}\n\n以下のファイルを編集して提出内容を同期します。`, 'utf8').toString('base64'),
+                contentBase64: Buffer.from(`# ${workspaceId}\n\n学生: ${ownerId}\n\n以下のファイルを編集して提出内容を同期します。`, 'utf8').toString('base64'),
             },
             {
                 path: 'src/main.py',

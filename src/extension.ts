@@ -17,8 +17,8 @@ type ManifestEntry = {
 };
 
 interface StartPayload {
-    student?: string;
-    exercise?: string;
+    ownerId?: string;
+    workspaceId?: string;
 }
 
 interface SyncConfig {
@@ -127,8 +127,8 @@ async function downloadAndMaterializeWorkspace(serverUrl: string, payload: Start
     // GET serverUrl + '/manifest' with payload as query
     const url = new URL(serverUrl);
     url.pathname = '/manifest';
-    if (payload.student) url.searchParams.set('student', payload.student);
-    if (payload.exercise) url.searchParams.set('exercise', payload.exercise);
+    if (payload.ownerId) url.searchParams.set('ownerId', payload.ownerId);
+    if (payload.workspaceId) url.searchParams.set('workspaceId', payload.workspaceId);
 
     const res = await fetch(url.toString());
     if (!res.ok) throw new Error(`manifest fetch failed: ${res.status}`);
@@ -139,7 +139,7 @@ async function downloadAndMaterializeWorkspace(serverUrl: string, payload: Start
     await ensureDir(sessionsRoot);
     await cleanupOldSessions(sessionsRoot);
     const unique = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-    const folderName = `session-${unique}-${payload.exercise ?? 'unknown'}`;
+    const folderName = `session-${unique}-${payload.workspaceId ?? 'unknown'}`;
     const workspaceRoot = vscode.Uri.joinPath(sessionsRoot, folderName);
     await ensureDir(workspaceRoot);
 
@@ -184,13 +184,13 @@ async function downloadAndMaterializeWorkspace(serverUrl: string, payload: Start
 }
 
 function parseInvokeUri(uri: vscode.Uri): SyncConfig {
-    // vscode://publisher.extension/start?server=https://..&student=..&exercise=..
+    // vscode://publisher.extension/start?server=https://..&ownerId=..&workspaceId=..
     const params = new URLSearchParams(uri.query);
     const server = params.get('server');
     if (!server) throw new Error('server パラメータが必要です');
     const payload: StartPayload = {
-        student: params.get('student') || undefined,
-        exercise: params.get('exercise') || undefined,
+        ownerId: params.get('ownerId') || undefined,
+        workspaceId: params.get('workspaceId') || undefined,
     };
     return { serverUrl: server, payload };
 }
@@ -257,8 +257,8 @@ async function beginWatchAndSync(
 
     const basePayload: StartPayload | undefined = cfg.payload
         ? {
-            student: cfg.payload.student,
-            exercise: cfg.payload.exercise,
+            ownerId: cfg.payload.ownerId,
+            workspaceId: cfg.payload.workspaceId,
         }
         : undefined;
 
