@@ -19,7 +19,6 @@ type ManifestEntry = {
 interface StartPayload {
     student?: string;
     exercise?: string;
-    token?: string;
 }
 
 interface SyncConfig {
@@ -130,7 +129,6 @@ async function downloadAndMaterializeWorkspace(serverUrl: string, payload: Start
     url.pathname = '/manifest';
     if (payload.student) url.searchParams.set('student', payload.student);
     if (payload.exercise) url.searchParams.set('exercise', payload.exercise);
-    if (payload.token) url.searchParams.set('token', payload.token);
 
     const res = await fetch(url.toString());
     if (!res.ok) throw new Error(`manifest fetch failed: ${res.status}`);
@@ -186,14 +184,13 @@ async function downloadAndMaterializeWorkspace(serverUrl: string, payload: Start
 }
 
 function parseInvokeUri(uri: vscode.Uri): SyncConfig {
-    // vscode://publisher.extension/start?server=https://..&student=..&exercise=..&token=..
+    // vscode://publisher.extension/start?server=https://..&student=..&exercise=..
     const params = new URLSearchParams(uri.query);
     const server = params.get('server');
     if (!server) throw new Error('server パラメータが必要です');
     const payload: StartPayload = {
         student: params.get('student') || undefined,
         exercise: params.get('exercise') || undefined,
-        token: params.get('token') || undefined,
     };
     return { serverUrl: server, payload };
 }
@@ -258,11 +255,18 @@ async function beginWatchAndSync(
 ) {
     status.text = '$(sync~spin) Workspace Launch by Link: running';
 
+    const basePayload: StartPayload | undefined = cfg.payload
+        ? {
+            student: cfg.payload.student,
+            exercise: cfg.payload.exercise,
+        }
+        : undefined;
+
     const postJson = async (path: string, body: any) => {
         await fetch(new URL(path, cfg.serverUrl).toString(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...body, ...cfg.payload }),
+            body: JSON.stringify({ ...body, ...basePayload }),
         }).then((r) => {
             if (!r.ok) throw new Error(`HTTP ${r.status}`);
         });

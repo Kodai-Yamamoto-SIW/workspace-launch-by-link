@@ -8,11 +8,11 @@ Webリンクから VS Code ワークスペースを起動し、内容をサー�
 2. Web 側に以下の形式のリンクを配置
 
 ```
-vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=https%3A%2F%2Fexample.com&student=alice&exercise=week1&token=abc
+vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=https%3A%2F%2Fexample.com&student=alice&exercise=week1
 ```
 
 - server: サーバーのベース URL（必須）
-- student/exercise/token: 任意の識別子
+- student/exercise: 任意の識別子
 
 ## サーバー API
 
@@ -27,11 +27,11 @@ vscode://Kodai-Yamamoto-SIW.workspace-launch-by-link/start?server=https%3A%2F%2F
   ```
 
 - POST /event/fileSnapshot
-  - body: { path, isBinary, content(base64), student, exercise, token }
+  - body: { path, isBinary, content(base64), student, exercise }
 - POST /event/create | /event/delete | /event/rename
-  - body: { path | oldPath/newPath, student, exercise, token }
+  - body: { path | oldPath/newPath, student, exercise }
 - POST /event/heartbeat
-  - body: { ts, student, exercise, token }
+  - body: { ts, student, exercise }
 
 ## 動作
 
