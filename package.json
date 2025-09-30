@@ -43,13 +43,13 @@
         "mock-server": "node tools/mock-server.js"
     },
     "devDependencies": {
-        "@types/node": "^20.12.7",
-        "@types/vscode": "^1.87.0",
-        "typescript": "^5.5.4",
-        "@vscode/vsce": "^2.15.0"
+        "@types/node": "^24.6.0",
+        "@types/vscode": "^1.104.0",
+        "typescript": "^5.9.2",
+        "@vscode/vsce": "^3.6.2"
     },
     "dependencies": {
-        "cross-fetch": "^4.0.0",
-        "isbinaryfile": "^5.0.2"
+        "cross-fetch": "^4.1.0",
+        "isbinaryfile": "^5.0.6"
     }
 }
